@@ -1,0 +1,367 @@
+<html>
+<head>
+  <title>neural network art</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="ōtoro.net">
+    <meta name="author" content="hardmaru">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <!-- extra styles -->
+    <style>
+    body {
+    }
+    head {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      padding: 10px;
+      font-family: Courier, "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 100;
+      font-size: 0.6em;
+    }
+    textarea {
+      padding: 5;
+      font-family: Courier, "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 100;
+      font-size: 0.5em;
+    }
+
+    input {
+      background-color: #FFFFFF6F;
+      border-radius: 12.5px;
+      padding-left: 8px;
+      background-repeat:no-repeat;
+      border: none;
+      cursor:text;
+      overflow: hidden;
+      outline:none;
+    }
+
+    button {
+      background-color: Transparent;
+      background-repeat:no-repeat;
+      border: none;
+      cursor:pointer;
+      overflow: hidden;
+      outline:none;
+  }
+
+    button:hover {
+      opacity: 1;
+      transition: 0.3s;
+    }
+    </style>
+
+    <style type="text/css">
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        transition: 0.3s;
+      }
+
+      .switch:hover {
+        opacity: 1.2
+      }
+      .slider:hover {
+        opacity: 1.2
+      }
+      .slider.round:hover {
+        opacity: 1.2
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cccccc22;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #F34221;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #F34221;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    </style>
+
+    <style type="text/css">
+      /* Rules for sizing the icon. */
+      .material-icons.md-18 { font-size: 18px; }
+      .material-icons.md-24 { font-size: 24px; }
+      .material-icons.md-36 { font-size: 36px; }
+      .material-icons.md-42 { font-size: 42px; }
+      .material-icons.md-48 { font-size: 48px; }
+
+      /* Rules for using icons as black on a light background. */
+      .material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+      .material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+      /* Rules for using icons as white on a dark background. */
+      .material-icons.md-light { color: rgba(255, 255, 255, 1); }
+      .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+    </style>
+
+    <script type="text/javascript">
+      setUpPage = function() {
+        console.log("SET UP")
+
+        document.getElementById("downloadImage").style.position = "absolute"
+        document.getElementById("downloadImage").style.zindex = 999
+        document.getElementById("downloadImage").style.bottom = 20
+        document.getElementById("downloadImage").style.right = 20
+
+        document.getElementById("refreshImage").style.position = "absolute"
+        document.getElementById("refreshImage").style.zindex = 999
+        document.getElementById("refreshImage").style.bottom = 20
+        document.getElementById("refreshImage").style.right = 20 + document.getElementById("refreshImage").offsetWidth
+
+        document.getElementById("textInput").style.position = "absolute"
+        document.getElementById("textInput").style.zindex = 999
+        document.getElementById("textInput").style.bottom = 33
+        document.getElementById("textInput").style.left = 20
+        document.getElementById("textInput").style.width = 300
+        document.getElementById("textInput").style.height = 25
+
+        document.getElementById("infoImage").style.position = "absolute"
+        document.getElementById("infoImage").style.zindex = 999
+        document.getElementById("infoImage").style.top = 23
+        document.getElementById("infoImage").style.left = 20
+
+        document.getElementById("colorSwitch").style.position = "absolute"
+        document.getElementById("colorSwitch").style.zindex = 999
+        document.getElementById("colorSwitch").style.top = 20
+        document.getElementById("colorSwitch").style.right = (20)
+        document.getElementById("colorSwitch").style.display = ""
+
+        document.getElementById("textCanvas").style.position = "absolute"
+        document.getElementById("textCanvas").style.top = 0
+        document.getElementById("textCanvas").style.bottom = 0
+        document.getElementById("textCanvas").style.right = 0
+        document.getElementById("textCanvas").style.left = 0
+        document.getElementById("textCanvas").width = window.innerWidth
+        document.getElementById("textCanvas").height = window.innerHeight
+        document.getElementById("textCanvas").style.display = ""
+      }
+    </script>
+
+</head>
+<body onload="setUpPage()">
+
+    <canvas id="textCanvas"></canvas>
+    <div id="p5Container">
+    </div>
+    <button id="downloadImage" onclick="downloadImage()"><i class="material-icons md-42 md-light">get_app</i></button>
+    
+    <i id="infoImage" class="material-icons md-24 md-light">info</i>
+    <button id="refreshImage" onclick="generate()"><i class="material-icons md-42 md-light">refresh</i></button>
+
+    <button id="writeTitle" onclick=""><i class="material-icons md-42 md-light">title</i></button>
+
+
+    <label id="colorSwitch" class="switch">
+      <input type="checkbox" id="checkbox" checked="true">
+      <span class="slider round"></span>
+    </label>
+
+    <a id="download" style="display: none" download="mosAIc.png"></a>
+
+    <input type="text" name="textInput" id="textInput" oninput="changeText()" placeholder="Give it a title...">
+
+  <!-- jQuery -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+  <script src="p5.min.js"></script>
+
+  <script src="recurrent.js"></script>
+
+  <script src="netar.js"></script>
+
+
+<script>
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61361005-1', 'auto');
+  ga('send', 'pageview');
+
+  function generate() {
+    var checkBox = document.getElementById("checkbox");
+
+    generateImage(!checkbox.checked)
+  }
+
+  function downloadImage() {
+    setText()
+
+    var download = document.getElementById("download");
+    var image = document.getElementById("defaultCanvas").toDataURL("image/png")
+    download.setAttribute("href", image); 
+    download.click()
+  }
+
+  function setText() {
+
+  }
+
+</script>
+
+<script type="text/javascript">
+  lineCountGlobal = 0
+lineHeightGlobal = 0
+
+function wrapText (context, text, x, y, maxWidth, lineHeight) {
+  
+  lineHeightGlobal = lineHeight
+    
+    var words = text.split(' '),
+        line = '',
+        lineCount = 0,
+        i,
+        test,
+        metrics;
+
+    for (i = 0; i < words.length; i++) {
+        test = words[i];
+        metrics = context.measureText(test);
+        while (metrics.width > maxWidth) {
+            // Determine how much of the word will fit
+            test = test.substring(0, test.length - 1);
+            metrics = context.measureText(test);
+        }
+        if (words[i] != test) {
+            words.splice(i + 1, 0,  words[i].substr(test.length))
+            words[i] = test;
+        }  
+
+        test = line + words[i] + ' ';  
+        metrics = context.measureText(test);
+        
+        if (metrics.width > maxWidth && i > 0) {
+            context.fillText(line, x, y);
+            line = words[i] + ' ';
+            y += lineHeight;
+            lineCount++;
+            lineCountGlobal = lineCount
+        }
+        else {
+            line = test;
+        }
+    }
+            
+    context.fillText(line, x, y);
+}
+
+function changeText() {
+  console.log("CHANGE TEXT")
+
+  var canvas = document.getElementById('textCanvas')
+  var ctx = document.getElementById('textCanvas').getContext('2d'),
+    text = document.getElementById('textInput').value;
+  console.log(text)
+    ctx.clearRect(0, 0, document.getElementById('textCanvas').width, document.getElementById('textCanvas').height);
+
+    ctx.textAlign = "center";
+    ctx.font = 'bold 36px/1.4 Helvetica, sans-serif';
+    ctx.fillStyle = '#FFFFFF00';
+
+    max_width = window.innerWidth / 3
+
+    if(window.innerHeight > window.innerWidth) {
+      max_width = window.innerWidth / 2
+    }
+
+    wrapText(ctx, text, window.innerWidth/2, window.innerHeight/2 - 38*lineCountGlobal/2, max_width, 38);
+    console.log(lineCountGlobal)
+    ctx.fillStyle = '#FFFFFF6F'
+    wrapText(ctx, text, window.innerWidth/2, window.innerHeight/2 - 38*lineCountGlobal/2, max_width, 38)
+  }
+
+  function setText() {
+    console.log("CHANGE TEXT")
+
+    var canvas = document.getElementById('defaultCanvas')
+    var textCanvas = document.getElementById('textCanvas') 
+    var ctx = document.getElementById('defaultCanvas').getContext('2d'),
+      text = document.getElementById('textInput').value;
+  console.log(text)
+
+    textCanvas.getContext('2d').clearRect(0, 0, textCanvas.width, textCanvas.height);
+
+    ctx.textAlign = "center";
+    ctx.font = 'bold 36px/1.4 Helvetica, sans-serif';
+    ctx.fillStyle = '#FFFFFF00';
+
+    max_width = window.innerWidth / 3
+
+    if(window.innerHeight > window.innerWidth) {
+      max_width = window.innerWidth / 2
+    }
+
+    wrapText(ctx, text, window.innerWidth/2, window.innerHeight/2 - 38*lineCountGlobal/2, max_width, 38);
+    console.log(lineCountGlobal)
+    ctx.fillStyle = '#FFFFFF6F'
+    wrapText(ctx, text, window.innerWidth/2, window.innerHeight/2 - 38*lineCountGlobal/2, max_width, 38)
+  }
+</script>
+
+
+</body>
+</html>
