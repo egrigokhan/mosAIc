@@ -29,6 +29,12 @@ function genImage(img, bw) {
 
   model = initModel()
 
+  console.log(model.w_in)
+  for (i = 0; i < HIDDEN_LAYER_COUNT; i++) {
+    console.log(model['w_'+i])
+  }
+  console.log(model.w_out)
+  
   var i, j, m, n;
 
   img.loadPixels();
